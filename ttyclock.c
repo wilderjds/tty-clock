@@ -68,6 +68,7 @@ init(void)
      init_pair(0, ttyclock.bg, ttyclock.bg);
      init_pair(1, ttyclock.bg, ttyclock.option.color);
      init_pair(2, ttyclock.option.color, ttyclock.bg);
+     init_pair(3, ttyclock.bg, ttyclock.option.alt_color);
 //     init_pair(0, ttyclock.bg, ttyclock.bg);
 //     init_pair(1, ttyclock.bg, ttyclock.option.color);
 //     init_pair(2, ttyclock.option.color, ttyclock.bg);
@@ -249,7 +250,7 @@ draw_clock(void)
      /* Draw hour numbers */
      draw_number(ttyclock.date.hour[0], 1, 1);
      draw_number(ttyclock.date.hour[1], 1, 8);
-     chtype dotcolor = COLOR_PAIR(1);
+     chtype dotcolor = COLOR_PAIR(3);
      if (ttyclock.option.blink && time(NULL) % 2 == 0)
           dotcolor = COLOR_PAIR(2);
 
