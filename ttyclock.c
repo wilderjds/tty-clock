@@ -66,7 +66,7 @@ init(void)
 
      /* Init color pair */
      init_pair(0, ttyclock.bg, ttyclock.bg);
-     init_pair(1, ttyclock.bg, ttyclock.option.color);
+     init_pair(1, ttyclock.bg, ttyclock.option.color );
      init_pair(2, ttyclock.option.color, ttyclock.bg);
      init_pair(3, ttyclock.bg, ttyclock.option.alt_color);
 //     init_pair(0, ttyclock.bg, ttyclock.bg);
@@ -237,8 +237,13 @@ draw_number(int n, int x, int y)
                wattroff(ttyclock.framewin, A_BLINK);
 
           wbkgdset(ttyclock.framewin, COLOR_PAIR(number[n][i/2]));
+          if (number[n][i/2] == 1)
+              wattron(ttyclock.framewin, A_REVERSE);
+          else
+              wattroff(ttyclock.framewin, A_REVERSE);
           mvwaddch(ttyclock.framewin, x, sy, ' ');
      }
+     wattroff(ttyclock.framewin, A_REVERSE);
      wrefresh(ttyclock.framewin);
 
      return;
@@ -256,7 +261,7 @@ draw_clock(void)
 
      /* 2 dot for number separation */
      wbkgdset(ttyclock.framewin, dotcolor);
-     mvwaddstr(ttyclock.framewin, 2, 16, "  ");
+          mvwaddstr(ttyclock.framewin, 2, 16, "  ");
      mvwaddstr(ttyclock.framewin, 4, 16, "  ");
 
      /* Draw minute numbers */
@@ -333,7 +338,7 @@ clock_move(int x, int y, int w, int h)
      }
 
      wrefresh(ttyclock.framewin);
-     wrefresh(ttyclock.datewin); 
+     wrefresh(ttyclock.datewin);
      return;
 }
 
@@ -421,7 +426,7 @@ key_event(void)
      int i, c;
 
      struct timespec length = { ttyclock.option.delay, ttyclock.option.nsdelay };
-     
+
      if (ttyclock.option.screensaver)
      {
           c = wgetch(stdscr);
