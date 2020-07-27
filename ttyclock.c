@@ -547,6 +547,7 @@ main(int argc, char **argv)
      strncpy(ttyclock.option.format, "%F", sizeof (ttyclock.option.format));
      /* Default color */
      ttyclock.option.color = COLOR_GREEN; /* COLOR_GREEN = 2 */
+     ttyclock.option.alt_color = 100; /* COLOR_GREEN = 2 */
      /* Default delay */
      ttyclock.option.delay = 1; /* 1FPS */
      ttyclock.option.nsdelay = 0; /* -0FPS */
@@ -554,7 +555,7 @@ main(int argc, char **argv)
 
      atexit(cleanup);
 
-     while ((c = getopt(argc, argv, "iuvsScbtrhBxnDC:f:d:T:a:")) != -1)
+     while ((c = getopt(argc, argv, "iuvsScbtrhBxnDX:C:f:d:T:a:")) != -1)
      {
           switch(c)
           {
@@ -566,6 +567,7 @@ main(int argc, char **argv)
                       "    -x            Show box                                       \n"
                       "    -c            Set the clock at the center of the terminal    \n"
                       "    -C [0-7]      Set the clock color                            \n"
+                      "    -X [0-7]      Set the alternate clock color                            \n"
                       "    -b            Use bold colors                                \n"
                       "    -t            Set the hour in 12h format                     \n"
                       "    -u            Use UTC time                                   \n"
@@ -608,6 +610,10 @@ main(int argc, char **argv)
           case 'C':
                if(atoi(optarg) >= 0 && atoi(optarg) < 8)
                     ttyclock.option.color = atoi(optarg);
+               break;
+          case 'X':
+               if(atoi(optarg) >= 0 && atoi(optarg) < 8)
+                    ttyclock.option.alt_color = atoi(optarg);
                break;
           case 't':
                ttyclock.option.twelve = True;
@@ -656,6 +662,9 @@ main(int argc, char **argv)
           }
      }
 
+     if ( ttyclock.option.alt_color == 100) {
+         ttyclock.option.alt_color = ttyclock.option.color;
+     }
      init();
      attron(A_BLINK);
      while(ttyclock.running)

@@ -80,6 +80,7 @@ typedef struct
           Bool noquit;
           char format[100];
           int color;
+          int alt_color;
           Bool bold;
           long delay;
           Bool blink;
